@@ -1,7 +1,7 @@
 
 ##########################################################################
 ##                         AUTO-GENERATED FILE                          ##
-##               BUILD_NUMBER=Wed Feb 13 14:18:42 CET 2019              ##
+##               BUILD_NUMBER=Wed Feb 13 16:30:39 CET 2019              ##
 ##########################################################################
 
 sudo: required
@@ -12,9 +12,3 @@ jobs:
     - script: NO_COLOURS=1 DEBUG=1 TEST_COMBINATIONS=postgres-11_repmgr-4.2_pgpool-4.2_barman-2.5 ./tests/run.sh
       env:
         - COMBINATION=postgres-11_repmgr-4.2_pgpool-4.2_barman-2.5
-    - script: NO_COLOURS=1 DEBUG=1 TEST_COMBINATIONS=postgres-10_repmgr-4.0_pgpool-3.7_barman-2.4 ./tests/run.sh
-      env:
-        - COMBINATION=postgres-10_repmgr-4.0_pgpool-3.7_barman-2.4
-    - script: NO_COLOURS=1 DEBUG=1 TEST_COMBINATIONS=latest ./tests/run.sh
-      env:
-        - COMBINATION=latest

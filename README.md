@@ -1,17 +1,11 @@
-# PostDock - Postgres + Docker
+# Postgis cluster
 
-PostgreSQL cluster with **High Availability** and **Self Healing** features for any cloud and docker environment (Amazon, Google Cloud, Kubernetes, Docker Compose, Docker Swarm, Apache Mesos)
-
-![Formula](https://raw.githubusercontent.com/paunin/PostDock/master/artwork/formula2.png)
-
-[![Build Status](https://travis-ci.org/paunin/PostDock.svg?branch=master)](https://travis-ci.org/paunin/PostDock)
+Postgis cluster with **High Availability** and **Self Healing** features docker environment
 
 - [Info](#info)
   * [Features](#features)
   * [What's in the box](#whats-in-the-box)
-  * [Docker images tags convention](#docker-images-tags-convention)
 - [Start cluster with docker-compose](#start-cluster-with-docker-compose)
-- [Start cluster in Kubernetes](#start-cluster-in-kubernetes)
 - [Adaptive mode](#adaptive-mode)
 - [SSH access](#ssh-access)
 - [Replication slots](#replication-slots)
@@ -20,13 +14,10 @@ PostgreSQL cluster with **High Availability** and **Self Healing** features for 
   * [Pgpool](#pgpool)
   * [Barman](#barman)
   * [Other configurations](#other-configurations)
-- [Extended version of postgres](#extended-version-of-postgres)
 - [Backups and recovery](#backups-and-recovery)
 - [Health-checks](#health-checks)
 - [Useful commands](#useful-commands)
-- [Publications](#publications)
 - [Scenarios](#scenarios)
-- [How to contribute](#how-to-contribute)
 - [FAQ](#faq)
 - [Documentation and manuals](#documentation-and-manuals)
 
@@ -44,35 +35,12 @@ PostgreSQL cluster with **High Availability** and **Self Healing** features for 
 * Monitoring exporters for all the components(nodes, balancers, backup)
 
 ### What's in the box
-[This project](https://github.com/paunin/postgres-docker-cluster) includes:
 * Dockerfiles for `postgresql` cluster and backup system
     * [postgresql](./src/Postgres-latest.Dockerfile)
     * [pgpool](./src/Pgpool-latest.Dockerfile)
     * [barman](./src/Barman-latest.Dockerfile)
 * Examples of usage(suitable for production environment as architecture has fault protection with auto failover)
     * example of [docker-compose](./docker-compose/latest.yml) file to start this cluster.
-    * directory [k8s](./k8s) contains information for building this cluster in Kubernetes
-
-### Docker images tags convention
-
-Taking into account that PostDock project itself has versioning schema, all docker images produced by the repository have schema - `postdock/<component>:<postdock_version>-<component><component_version>-<sub_component><sub_component_version>[...]`, where:
-
-* `<postdock_version>` - semantic version without `bug-fix` component (can be `1.1`,`1.2`,...)
-* `<component>`, `<component_version>` - depends on component:
-    * `postgres`,`postgres-extended` - major and minor version without dot in between(can be `95`,`96`,`10`)
-    * `pgpool` - major and minor version of component without dot in between(can be `33`,`36`,`37`)
-    * `barman` - major version only (can be `23`,`24`)
-* `<sub_component>`, `<sub_component_version>` - depends on component:
-    * for `postgres` - `repmgr` can be `3.2`
-    * for `barman` - `postgres` can be `9.6`, `10`
-    * for `pgpool` - `postgres` can be `9.6`, `10`
-
-Aliases are available **(not recommended to use for production)**:
-
-* `postdock/<component>:latest-<component><component_version>[-<sub_component><sub_component_version>[...]]` - refers to the latest release of the postdock, certain version of the component, certain version of the sub-components(e.g. `postdock/postgres:latest-postgres101-repmgr32`,`postdock/postgres:latest-barman23-postgres101`)
-* `postdock/<component>:latest` - refers to the latest release of the postdock and the latest versions of all the components and sub-components (e.g. `postdock/postgres:latest`)
-* `postdock/<component>:edge` - refers to build of postdock from master with the latest version the component, and all sub-components (e.g. `postdock/postgres:edge`)
-
 
 ## Start cluster with docker-compose
 
@@ -91,15 +59,6 @@ pgmaster (primary node1)  --|
 Each `postgres` node (`pgmaster`, `pgslaveX`) is managed by `repmgr/repmgrd`. It allows to use automatic `failover` and check cluster status.
 
 Please check comments for each `ENV` variable in [./docker-compose/latest.yml](./docker-compose/latest.yml) file to understand parameter for each cluster node
-
-
-## Start cluster in Kubernetes
-
-### Using Helm (recomended for production)
-You can install PostDock with [Helm](https://helm.sh/) package manager check the [README.md of the package](./k8s/helm/PostDock/README.md) for more information
-
-### Simple (NOT recomended for production)
-To make it easier repository contains services' objects under `k8s` dir. Setup `PostgreSQL` cluster following the steps in [the example](./k8s/README.md). It also has information how to check cluster state
 
 ## Configuring the cluster
 
@@ -192,7 +151,7 @@ Barman exposes several metrics on `:8080/metrics` for more information see [Barm
 
 ## Health-checks
 
-To make sure you cluster works as expected without 'split-brain' or other issues, you have to setup health-checks and stop container if any health-check returns non-zero result. That is really useful when you use Kubernetes which has livenessProbe (check how to use it in [the example](./k8s/example2-single-statefulset/nodes/node.yml)) 
+To make sure you cluster works as expected without 'split-brain' or other issues, you have to setup health-checks and stop container if any health-check returns non-zero result.
 
 * Postgres containers:
     * `/usr/local/bin/cluster/healthcheck/is_major_master.sh` - detect if node acts as a 'false'-master and there is another master - with more standbys
@@ -210,28 +169,16 @@ To make sure you cluster works as expected without 'split-brain' or other issues
 * Get `pgpool` status (on any `pgpool` node): `PGPASSWORD=$CHECK_PASSWORD psql -U $CHECK_USER -h localhost template1 -c "show pool_nodes"`
 * In `pgpool` container check if primary node exists: `/usr/local/bin/pgpool/has_write_node.sh` 
 
-Any command might be wrapped with `docker-compose` or `kubectl` - `docker-compose exec {NODE} bash -c '{COMMAND}'` or `kubectl exec {POD_NAME} -- bash -c '{COMMAND}'`
+Any command might be wrapped with `docker-compose` - `docker-compose exec {NODE} bash -c '{COMMAND}'`
 
 
 ## Scenarios
 
 Check [the document](./doc/FLOWS.md) to understand different cases of failover, split-brain resistance and recovery
 
-## Publications
-* [Article on Medium.com](https://medium.com/@dpaunin/postgresql-cluster-into-kubernetes-cluster-f353cde212de)
-* [Статья на habr-e](https://habrahabr.ru/post/301370/)
-
-## How to contribute
-
-Check [the doc](./doc/CONTRIBUTE.md) to understand how to contribute
 
 ## FAQ
 
-* Example of real/live usage: 
-    * [Lazada/Alibaba Group](http://lazada.com/)
-* Why not [sorintlab/stolon](https://github.com/sorintlab/stolon):
-    * Complex logic with a lot of go-code
-    * Non-standard tools for Postgres ecosystem
 * [How to promote master, after failover on postgresql with docker](http://stackoverflow.com/questions/37710868/how-to-promote-master-after-failover-on-postgresql-with-docker)
 * Killing of node in the middle (e.g. `pgslave1`) will cause [dieing of whole branch](https://groups.google.com/forum/?hl=fil#!topic/repmgr/lPAYlawhL0o)
    * That make seance as second or deeper level of replication should not be able to connect to root master (it makes extra load on server) or change upstream at all
@@ -243,4 +190,3 @@ Check [the doc](./doc/CONTRIBUTE.md) to understand how to contribute
 * Repmgr: https://github.com/2ndQuadrant/repmgr
 * Pgpool2: http://www.pgpool.net/docs/latest/pgpool-en.html
 * Barman: http://www.pgbarman.org/
-* Kubernetes: http://kubernetes.io/

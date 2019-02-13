@@ -1,1 +1,0 @@
-Pgpool-3.3-3.7.part.Dockerfile

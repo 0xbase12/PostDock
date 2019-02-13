@@ -167,11 +167,6 @@ You also will have to set identical ssh keys to all containers. For that you nee
 
 If you want to disable the feature of Postgres>=9.4 - [replication slots](https://www.postgresql.org/docs/9.4/static/catalog-pg-replication-slots.html) simply set ENV variable `USE_REPLICATION_SLOTS=0` (enabled by default). So cluster will rely only on Postgres configuration `wal_keep_segments` (`500` by default). You also should remember that default number for configuration `max_replication_slots` is `5`. You can change it (as any other configuration) with ENV variable `CONFIGS`.
 
-
-## Extended version of postgres
-
-Component `postgres-extended` from the section [Docker images tags convention](#docker-images-tags-convention) should be used if you want to have postgres with extensions and libraries. Each directory [here](./src/pgsql/extensions/bin/extensions) represents extension included in the image.
-
 ## Backups and recovery
 
 [Barman](http://docs.pgbarman.org/) is used to provide real-time backups and Point In Time Recovery (PITR)..

@@ -1,7 +1,7 @@
 
 ##########################################################################
 ##                         AUTO-GENERATED FILE                          ##
-##               BUILD_NUMBER=Sat  2 Jun 2018 15:28:51 +07              ##
+##               BUILD_NUMBER=Wed Feb 13 10:37:29 CET 2019              ##
 ##########################################################################
 
 version: '2'
@@ -19,7 +19,9 @@ volumes:
 
 services:
     pgmaster:
-        image: postgre-10-postgis-2.5
+        build:
+            context: ../src
+            dockerfile: Postgres-10-Repmgr-4.0.Dockerfile
         environment:
             NODE_ID: 1 # Integer number of node (not required if can be extracted from NODE_NAME var, e.g. node-45 => 1045)
             NODE_NAME: node1 # Node name
@@ -56,7 +58,9 @@ services:
                     - pgmaster
 #<<< Branch 1
     pgslave1:
-        image: postgre-10-postgis-2.5
+        build:
+            context: ../src
+            dockerfile: Postgres-10-Repmgr-4.0.Dockerfile
         environment:
             NODE_ID: 2
             NODE_NAME: node2
@@ -79,7 +83,9 @@ services:
 
     # Add more slaves if required
     pgslave2:
-        image: postgre-10-postgis-2.5
+        build:
+            context: ../src
+            dockerfile: Postgres-10-Repmgr-4.0.Dockerfile
         environment:
             NODE_ID: 3
             NODE_NAME: node3
@@ -100,7 +106,9 @@ services:
 #>>> Branch 1
 #<<< Branch 2
     pgslave3:
-        image: postgre-10-postgis-2.5
+        build:
+            context: ../src
+            dockerfile: Postgres-10-Repmgr-4.0.Dockerfile
         environment:
             NODE_ID: 4
             NODE_NAME: node4
@@ -122,7 +130,9 @@ services:
                     - pgslave3
 
     pgslave4:
-        image: postgre-10-postgis-2.5
+        build:
+            context: ../src
+            dockerfile: Postgres-10-Repmgr-4.0.Dockerfile
         environment:
             NODE_ID: 5
             NODE_NAME: node5

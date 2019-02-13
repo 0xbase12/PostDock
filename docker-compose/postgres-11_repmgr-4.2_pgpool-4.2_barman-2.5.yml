@@ -1,7 +1,7 @@
 
 ##########################################################################
 ##                         AUTO-GENERATED FILE                          ##
-##               BUILD_NUMBER=Wed Feb 13 10:37:29 CET 2019              ##
+##               BUILD_NUMBER=Wed Feb 13 14:18:42 CET 2019              ##
 ##########################################################################
 
 version: '2'
@@ -21,7 +21,7 @@ services:
     pgmaster:
         build:
             context: ../src
-            dockerfile: Postgres-extended-10-Repmgr-4.0.Dockerfile
+            dockerfile: Postgres-11-Repmgr-4.2.Dockerfile
         environment:
             NODE_ID: 1 # Integer number of node (not required if can be extracted from NODE_NAME var, e.g. node-45 => 1045)
             NODE_NAME: node1 # Node name
@@ -38,7 +38,7 @@ services:
             POSTGRES_DB: monkey_db
             CLEAN_OVER_REWIND: 0
             CONFIGS_DELIMITER_SYMBOL: ;
-            CONFIGS: "listen_addresses:'*';max_replication_slots:5;shared_preload_libraries:'pglogical'"
+            CONFIGS: "listen_addresses:'*';max_replication_slots:5"
                                   # in format variable1:value1[,variable2:value2[,...]] if CONFIGS_DELIMITER_SYMBOL=, and CONFIGS_ASSIGNMENT_SYMBOL=:
                                   # used for pgpool.conf file
             #defaults:
@@ -60,7 +60,7 @@ services:
     pgslave1:
         build:
             context: ../src
-            dockerfile: Postgres-extended-10-Repmgr-4.0.Dockerfile
+            dockerfile: Postgres-11-Repmgr-4.2.Dockerfile
         environment:
             NODE_ID: 2
             NODE_NAME: node2
@@ -70,7 +70,7 @@ services:
             REPLICATION_PRIMARY_HOST: pgmaster
             CLEAN_OVER_REWIND: 1
             CONFIGS_DELIMITER_SYMBOL: ;
-            CONFIGS: "max_replication_slots:10;shared_preload_libraries:'pglogical'" #some overrides
+            CONFIGS: "max_replication_slots:10" #some overrides
         ports:
             - 5441:5432
         volumes:
@@ -85,7 +85,7 @@ services:
     pgslave2:
         build:
             context: ../src
-            dockerfile: Postgres-extended-10-Repmgr-4.0.Dockerfile
+            dockerfile: Postgres-11-Repmgr-4.2.Dockerfile
         environment:
             NODE_ID: 3
             NODE_NAME: node3
@@ -94,7 +94,7 @@ services:
             REPLICATION_PRIMARY_HOST: pgslave1 # I want to have cascade Streeming replication
             #USE_REPLICATION_SLOTS: 0
             CONFIGS_DELIMITER_SYMBOL: ;
-            CONFIGS: "listen_addresses:'*';shared_preload_libraries:'pglogical'"
+            CONFIGS: "listen_addresses:'*'"
         ports:
             - 5442:5432
         volumes:
@@ -108,7 +108,7 @@ services:
     pgslave3:
         build:
             context: ../src
-            dockerfile: Postgres-extended-10-Repmgr-4.0.Dockerfile
+            dockerfile: Postgres-11-Repmgr-4.2.Dockerfile
         environment:
             NODE_ID: 4
             NODE_NAME: node4
@@ -119,7 +119,7 @@ services:
             NODE_PRIORITY: 200  # (default: 100)
             CLEAN_OVER_REWIND: 1
             CONFIGS_DELIMITER_SYMBOL: ;
-            CONFIGS: "listen_addresses:'*';shared_preload_libraries:'pglogical'"
+            CONFIGS: "listen_addresses:'*'"
         ports:
             - 5443:5432
         volumes:
@@ -132,7 +132,7 @@ services:
     pgslave4:
         build:
             context: ../src
-            dockerfile: Postgres-extended-10-Repmgr-4.0.Dockerfile
+            dockerfile: Postgres-11-Repmgr-4.2.Dockerfile
         environment:
             NODE_ID: 5
             NODE_NAME: node5
@@ -141,7 +141,7 @@ services:
             REPLICATION_PRIMARY_HOST: pgslave3
             #USE_REPLICATION_SLOTS: 0
             CONFIGS_DELIMITER_SYMBOL: ;
-            CONFIGS: "listen_addresses:'*';shared_preload_libraries:'pglogical'"
+            CONFIGS: "listen_addresses:'*'"
         ports:
             - 5444:5432
         volumes:
@@ -154,7 +154,7 @@ services:
     backup:
         build:
             context: ../src
-            dockerfile: Barman-2.4-Postgres-10.Dockerfile
+            dockerfile: Barman-2.5-Postgres-11.Dockerfile
         environment:
             REPLICATION_USER: replication_user # default is replication_user
             REPLICATION_PASSWORD: replication_pass # default is replication_pass
@@ -174,7 +174,7 @@ services:
     pgpool:
         build:
             context: ../src
-            dockerfile: Pgpool-3.7-Postgres-10.Dockerfile
+            dockerfile: Pgpool-4.2-Postgres-11.Dockerfile
         environment:
             PCP_USER: pcp_user
             PCP_PASSWORD: pcp_pass
@@ -209,7 +209,7 @@ services:
     postgres_ext:
         build:
             context: ../src
-            dockerfile: Postgres-extended-10-Repmgr-4.0.Dockerfile
+            dockerfile: Postgres-extended-11-Repmgr-4.2.Dockerfile
         environment:
           NODE_ID: 101 
           NODE_NAME: node101 # Node name
@@ -223,7 +223,7 @@ services:
     postgres_conf:
         build:
           context: ../src/
-          dockerfile: Postgres-extended-10-Repmgr-4.0.Dockerfile
+          dockerfile: Postgres-11-Repmgr-4.2.Dockerfile
         environment:
           NODE_NAME: node-102 # Node name
           CLUSTER_NODE_NETWORK_NAME: postgres_conf # (default: hostname of the node)
@@ -237,7 +237,7 @@ services:
     pgpool_conf:
         build:
             context: ../src
-            dockerfile: Pgpool-3.7-Postgres-10.Dockerfile
+            dockerfile: Pgpool-4.2-Postgres-11.Dockerfile
         environment:
             PCP_USER: pcp_user
             PCP_PASSWORD: pcp_pass
@@ -256,7 +256,7 @@ services:
     pgmaster2:
         build:
             context: ../src
-            dockerfile: Postgres-extended-10-Repmgr-4.0.Dockerfile
+            dockerfile: Postgres-11-Repmgr-4.2.Dockerfile
         environment:
 
             NODE_ID: 1
@@ -267,7 +267,7 @@ services:
             POSTGRES_USER: monkey_user
             POSTGRES_DB: monkey_db
             CONFIGS_DELIMITER_SYMBOL: ;
-            CONFIGS: "listen_addresses:'*';shared_preload_libraries:'pglogical'"
+            CONFIGS: "listen_addresses:'*'"
         ports:
             - 5439:5432
         networks:
@@ -277,7 +277,7 @@ services:
     pgpool2:
         build:
             context: ../src
-            dockerfile: Pgpool-3.7-Postgres-10.Dockerfile
+            dockerfile: Pgpool-4.2-Postgres-11.Dockerfile
         depends_on:
             - pgmaster
             - pgmaster2

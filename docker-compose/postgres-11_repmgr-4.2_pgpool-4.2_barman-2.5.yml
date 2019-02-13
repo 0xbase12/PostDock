@@ -1,7 +1,7 @@
 
 ##########################################################################
 ##                         AUTO-GENERATED FILE                          ##
-##               BUILD_NUMBER=Wed Feb 13 16:30:39 CET 2019              ##
+##               BUILD_NUMBER=Wed Feb 13 16:45:46 CET 2019              ##
 ##########################################################################
 
 version: '2'
@@ -19,7 +19,9 @@ volumes:
 
 services:
     pgmaster:
-        image: kb/postgres-11-repmgr-4.2.dockerfile
+        build:
+            context: ../src
+            dockerfile: Postgres-11-Repmgr-4.2.Dockerfile
         environment:
             NODE_ID: 1 # Integer number of node (not required if can be extracted from NODE_NAME var, e.g. node-45 => 1045)
             NODE_NAME: node1 # Node name
@@ -56,7 +58,9 @@ services:
                     - pgmaster
 #<<< Branch 1
     pgslave1:
-        image: kb/postgres-11-repmgr-4.2.dockerfile
+        build:
+            context: ../src
+            dockerfile: Postgres-11-Repmgr-4.2.Dockerfile
         environment:
             NODE_ID: 2
             NODE_NAME: node2
@@ -79,7 +83,9 @@ services:
 
     # Add more slaves if required
     pgslave2:
-        image: kb/postgres-11-repmgr-4.2.dockerfile
+        build:
+            context: ../src
+            dockerfile: Postgres-11-Repmgr-4.2.Dockerfile
         environment:
             NODE_ID: 3
             NODE_NAME: node3
@@ -100,7 +106,9 @@ services:
 #>>> Branch 1
 #<<< Branch 2
     pgslave3:
-        image: kb/postgres-11-repmgr-4.2.dockerfile
+        build:
+            context: ../src
+            dockerfile: Postgres-11-Repmgr-4.2.Dockerfile
         environment:
             NODE_ID: 4
             NODE_NAME: node4
@@ -122,7 +130,9 @@ services:
                     - pgslave3
 
     pgslave4:
-        image: kb/postgres-11-repmgr-4.2.dockerfile
+        build:
+            context: ../src
+            dockerfile: Postgres-11-Repmgr-4.2.Dockerfile
         environment:
             NODE_ID: 5
             NODE_NAME: node5
@@ -142,7 +152,9 @@ services:
                     - pgslave4
 #>>> Branch 2
     backup:
-        image: kb/barman-2.5-postgres-11.dockerfile
+        build:
+            context: ../src
+            dockerfile: Barman-2.5-Postgres-11.Dockerfile
         environment:
             REPLICATION_USER: replication_user # default is replication_user
             REPLICATION_PASSWORD: replication_pass # default is replication_pass
@@ -160,7 +172,9 @@ services:
                 aliases:
                     - backup
     pgpool:
-        image: kb/pgpool-4.2-postgres-11.dockerfile
+        build:
+            context: ../src
+            dockerfile: Pgpool-4.2-Postgres-11.Dockerfile
         environment:
             PCP_USER: pcp_user
             PCP_PASSWORD: pcp_pass
@@ -192,8 +206,24 @@ services:
                 aliases:
                     - pgpool
 # the rest is for tests
+    postgres_ext:
+        build:
+            context: ../src
+            dockerfile: Postgres-extended-11-Repmgr-4.2.Dockerfile
+        environment:
+          NODE_ID: 101 
+          NODE_NAME: node101 # Node name
+          CLUSTER_NODE_NETWORK_NAME: postgres_ext # (default: hostname of the node)
+          POSTGRES_PASSWORD: monkey_pass
+          POSTGRES_USER: monkey_user
+          POSTGRES_DB: monkey_db
+          CLEAN_OVER_REWIND: 0
+          CONFIGS_DELIMITER_SYMBOL: ;
+          CONFIGS: "listen_addresses:'*';shared_preload_libraries:'pglogical'"
     postgres_conf:
-        image: kb/postgres-11-repmgr-4.2.dockerfile
+        build:
+          context: ../src/
+          dockerfile: Postgres-11-Repmgr-4.2.Dockerfile
         environment:
           NODE_NAME: node-102 # Node name
           CLUSTER_NODE_NETWORK_NAME: postgres_conf # (default: hostname of the node)
@@ -205,7 +235,9 @@ services:
           CONFIGS_DELIMITER_SYMBOL: "|"
           CONFIGS_ASSIGNMENT_SYMBOL: ")"
     pgpool_conf:
-        image: kb/pgpool-4.2-postgres-11.dockerfile
+        build:
+            context: ../src
+            dockerfile: Pgpool-4.2-Postgres-11.Dockerfile
         environment:
             PCP_USER: pcp_user
             PCP_PASSWORD: pcp_pass
@@ -222,7 +254,9 @@ services:
             - 5440:5432
             - 9897:9898 # PCP
     pgmaster2:
-        image: kb/postgres-11-repmgr-4.2.dockerfile
+        build:
+            context: ../src
+            dockerfile: Postgres-11-Repmgr-4.2.Dockerfile
         environment:
 
             NODE_ID: 1
@@ -241,7 +275,9 @@ services:
                 aliases:
                     - pgmaster2
     pgpool2:
-        image: kb/pgpool-4.2-postgres-11.dockerfile
+        build:
+            context: ../src
+            dockerfile: Pgpool-4.2-Postgres-11.Dockerfile
         depends_on:
             - pgmaster
             - pgmaster2

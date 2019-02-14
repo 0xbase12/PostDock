@@ -1,7 +1,7 @@
 
 ##########################################################################
 ##                         AUTO-GENERATED FILE                          ##
-##               BUILD_NUMBER=Thu Feb 14 07:49:04 CET 2019              ##
+##               BUILD_NUMBER=Thu Feb 14 08:03:38 CET 2019              ##
 ##########################################################################
 
 FROM debian:jessie
@@ -28,7 +28,7 @@ RUN  wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | apt-key a
 
 RUN  apt-get install -y libffi-dev libssl-dev openssh-server
 
-RUN  apt-get install -y postgresql-client-11
+RUN  apt-get install -y postgresql-client-10
 
 
 RUN TEMP_DEB="$(mktemp)" && \

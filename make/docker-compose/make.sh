@@ -1,7 +1,7 @@
 echo ">>> Making docker-compose"
 
 FILE_FROM='./src/includes/docker-compose/docker-compose.yml'
-for POSTGRES_VERSION in 11; do
+for POSTGRES_VERSION in 10; do
     for REPMGR_VERSION in 4.2; do
         for PGPOOL_VERSION in 4.2; do
             for BARMAN_VERSION in 2.5; do
@@ -9,7 +9,7 @@ for POSTGRES_VERSION in 11; do
                 BARMAN_POSTGRES_CLIENT_VERSION="$POSTGRES_VERSION"
                 VALS="POSTGRES_VERSION=$POSTGRES_VERSION PGPOOL_VERSION=$PGPOOL_VERSION BARMAN_VERSION=$BARMAN_VERSION REPMGR_VERSION=$REPMGR_VERSION PGPOOL_POSTGRES_CLIENT_VERSION=$PGPOOL_POSTGRES_CLIENT_VERSION BARMAN_POSTGRES_CLIENT_VERSION=$BARMAN_POSTGRES_CLIENT_VERSION"
 
-                FILE_TO="./docker-compose/postgres-${POSTGRES_VERSION}_repmgr-${REPMGR_VERSION}_pgpool-${PGPOOL_VERSION}_barman-${BARMAN_VERSION}.yml"
+                FILE_TO="./docker-compose/docker-compose.yml"
                 template $FILE_FROM $FILE_TO $VALS
             done
         done

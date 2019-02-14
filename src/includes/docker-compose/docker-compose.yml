@@ -13,7 +13,7 @@ volumes:
 
 services:
   pgmaster:
-    image: kb/postgres{{#POSTGRES_EXTENDED}}{{FILE_EXTENDED_SUFFIX}}{{/POSTGRES_EXTENDED}}-{{ POSTGRES_VERSION }}-repmgr-{{ REPMGR_VERSION }}.dockerfile
+    image: kb/postgis
     environment:
       NODE_ID: 1 # Integer number of node (not required if can be extracted from NODE_NAME var, e.g. node-45 => 1045)
       NODE_NAME: node1 # Node name
@@ -50,7 +50,7 @@ services:
           - pgmaster
   #<<< Branch 1
   pgslave1:
-    image: kb/postgres{{#POSTGRES_EXTENDED}}{{FILE_EXTENDED_SUFFIX}}{{/POSTGRES_EXTENDED}}-{{ POSTGRES_VERSION }}-repmgr-{{ REPMGR_VERSION }}.dockerfile
+    image: kb/postgis
     environment:
       NODE_ID: 2
       NODE_NAME: node2
@@ -73,7 +73,7 @@ services:
 
   # Add more slaves if required
   pgslave2:
-    image: kb/postgres{{#POSTGRES_EXTENDED}}{{FILE_EXTENDED_SUFFIX}}{{/POSTGRES_EXTENDED}}-{{ POSTGRES_VERSION }}-repmgr-{{ REPMGR_VERSION }}.dockerfile
+    image: kb/postgis
     environment:
       NODE_ID: 3
       NODE_NAME: node3
@@ -94,7 +94,7 @@ services:
   #>>> Branch 1
   #<<< Branch 2
   pgslave3:
-    image: kb/postgres{{#POSTGRES_EXTENDED}}{{FILE_EXTENDED_SUFFIX}}{{/POSTGRES_EXTENDED}}-{{ POSTGRES_VERSION }}-repmgr-{{ REPMGR_VERSION }}.dockerfile
+    image: kb/postgis
     environment:
       NODE_ID: 4
       NODE_NAME: node4
@@ -116,7 +116,7 @@ services:
           - pgslave3
 
   pgslave4:
-    image: kb/postgres{{#POSTGRES_EXTENDED}}{{FILE_EXTENDED_SUFFIX}}{{/POSTGRES_EXTENDED}}-{{ POSTGRES_VERSION }}-repmgr-{{ REPMGR_VERSION }}.dockerfile
+    image: kb/postgis
     environment:
       NODE_ID: 5
       NODE_NAME: node5
@@ -136,7 +136,7 @@ services:
           - pgslave4
   #>>> Branch 2
   backup:
-    image: kb/barman-{{ BARMAN_VERSION }}-postgres-{{ BARMAN_POSTGRES_CLIENT_VERSION }}.dockerfile
+    image: kb/barman
     environment:
       REPLICATION_USER: replication_user # default is replication_user
       REPLICATION_PASSWORD: replication_pass # default is replication_pass
@@ -154,7 +154,7 @@ services:
         aliases:
           - backup
   pgpool:
-    image: kb/pgpool-{{ PGPOOL_VERSION }}-postgres-{{ PGPOOL_POSTGRES_CLIENT_VERSION }}.dockerfile
+    image: kb/pgpool
     environment:
       PCP_USER: pcp_user
       PCP_PASSWORD: pcp_pass
@@ -168,7 +168,7 @@ services:
       BACKENDS: "0:pgmaster:5432:1:/var/lib/postgresql/data:ALLOW_TO_FAILOVER,1:pgslave1::::,3:pgslave3::::,2:pgslave2::::" #,4:pgslaveDOES_NOT_EXIST::::
         # in format num:host:port:weight:data_directory:flag[,...]
         # defaults:
-        #   port: 5432
+      #   port: 5432
       #   weight: 1
       #   data_directory: /var/lib/postgresql/data
       #   flag: ALLOW_TO_FAILOVER
@@ -187,7 +187,7 @@ services:
           - pgpool
   # the rest is for tests
   postgres_conf:
-    image: kb/postgres{{#POSTGRES_EXTENDED}}{{FILE_EXTENDED_SUFFIX}}{{/POSTGRES_EXTENDED}}-{{ POSTGRES_VERSION }}-repmgr-{{ REPMGR_VERSION }}.dockerfile
+    image: kb/postgis
     environment:
       NODE_NAME: node-102 # Node name
       CLUSTER_NODE_NETWORK_NAME: postgres_conf # (default: hostname of the node)
@@ -199,7 +199,7 @@ services:
       CONFIGS_DELIMITER_SYMBOL: "|"
       CONFIGS_ASSIGNMENT_SYMBOL: ")"
   pgpool_conf:
-    image: kb/pgpool-{{ PGPOOL_VERSION }}-postgres-{{ PGPOOL_POSTGRES_CLIENT_VERSION }}.dockerfile
+    image: kb/pgpool
     environment:
       PCP_USER: pcp_user
       PCP_PASSWORD: pcp_pass
@@ -216,7 +216,7 @@ services:
       - 5440:5432
       - 9897:9898 # PCP
   pgmaster2:
-    image: kb/postgres{{#POSTGRES_EXTENDED}}{{FILE_EXTENDED_SUFFIX}}{{/POSTGRES_EXTENDED}}-{{ POSTGRES_VERSION }}-repmgr-{{ REPMGR_VERSION }}.dockerfile
+    image: kb/postgis
     environment:
 
       NODE_ID: 1
@@ -235,7 +235,7 @@ services:
         aliases:
           - pgmaster2
   pgpool2:
-    image: kb/pgpool-{{ PGPOOL_VERSION }}-postgres-{{ PGPOOL_POSTGRES_CLIENT_VERSION }}.dockerfile
+    image: kb/pgpool
     depends_on:
       - pgmaster
       - pgmaster2

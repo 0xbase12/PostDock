@@ -1,10 +1,10 @@
 
 ##########################################################################
 ##                         AUTO-GENERATED FILE                          ##
-##               BUILD_NUMBER=Thu Feb 14 07:49:04 CET 2019              ##
+##               BUILD_NUMBER=Thu Feb 14 08:03:38 CET 2019              ##
 ##########################################################################
 
-FROM postgres:11
+FROM postgres:10
 
 RUN apt-get update --fix-missing && \
     apt-get install -y postgresql-server-dev-$PG_MAJOR wget openssh-server barman-cli postgresql-$PG_MAJOR-postgis-2.5

@@ -1,7 +1,7 @@
 
 ##########################################################################
 ##                         AUTO-GENERATED FILE                          ##
-##               BUILD_NUMBER=Thu Feb 14 16:02:51 CET 2019              ##
+##               BUILD_NUMBER=Thu Feb 14 16:07:22 CET 2019              ##
 ##########################################################################
 
 version: '2'
@@ -10,23 +10,23 @@ networks:
     driver: bridge
 
 volumes:
+  node0:
   node1:
   node2:
   node3:
   node4:
-  node5:
   backup:
 
 services:
-  node1:
+  node0:
     image: kb/postgis
     environment:
-      NODE_ID: 1 # Integer number of node (not required if can be extracted from NODE_NAME var, e.g. node-45 => 1045)
-      NODE_NAME: node1 # Node name
-      CLUSTER_NODE_NETWORK_NAME: node1 # (default: hostname of the node)
+      NODE_ID: 0 # Integer number of node (not required if can be extracted from NODE_NAME var, e.g. node-45 => 1045)
+      NODE_NAME: node0 # Node name
+      CLUSTER_NODE_NETWORK_NAME: node0 # (default: hostname of the node)
 
-      PARTNER_NODES: "node1,node2,node4"
-      REPLICATION_PRIMARY_HOST: node1 # That should be ignored on the same node
+      PARTNER_NODES: "node0,node1,node3"
+      REPLICATION_PRIMARY_HOST: node0 # That should be ignored on the same node
 
       NODE_PRIORITY: 100  # (default: 100)
       SSH_ENABLE: 1
@@ -48,36 +48,58 @@ services:
     ports:
       - 5422:5432
     volumes:
-      - node1:/var/lib/postgresql/data
+      - node0:/var/lib/postgresql/data
       - ./ssh/:/var/lib/postgresql/.ssh/keys
     networks:
       cluster:
         aliases:
-          - node1
+          - node0
   #<<< Branch 1
-  node2:
+  node1:
     image: kb/postgis
     environment:
-      NODE_ID: 2
-      NODE_NAME: node2
-      CLUSTER_NODE_NETWORK_NAME: node2 # (default: hostname of the node)
+      NODE_ID: 1
+      NODE_NAME: node1
+      CLUSTER_NODE_NETWORK_NAME: node1 # (default: hostname of the node)
       SSH_ENABLE: 1
-      PARTNER_NODES: "node1,node2,node4"
-      REPLICATION_PRIMARY_HOST: node1
+      PARTNER_NODES: "node0,node1,node3"
+      REPLICATION_PRIMARY_HOST: node0
       CLEAN_OVER_REWIND: 1
       CONFIGS_DELIMITER_SYMBOL: ;
       CONFIGS: "max_replication_slots:10" #some overrides
     ports:
       - 5441:5432
     volumes:
-      - node2:/var/lib/postgresql/data
+      - node1:/var/lib/postgresql/data
       - ./ssh:/var/lib/postgresql/.ssh/keys
     networks:
       cluster:
         aliases:
-          - node2
+          - node1
 
   # Add more slaves if required
+  node2:
+    image: kb/postgis
+    environment:
+      NODE_ID: 2
+      NODE_NAME: node2
+      CLUSTER_NODE_NETWORK_NAME: node2 # (default: hostname of the node)
+
+      REPLICATION_PRIMARY_HOST: node1 # I want to have cascade Streaming replication
+      #USE_REPLICATION_SLOTS: 0
+      CONFIGS_DELIMITER_SYMBOL: ;
+      CONFIGS: "listen_addresses:'*'"
+    ports:
+      - 5442:5432
+    volumes:
+      - node2:/var/lib/postgresql/data
+      - ./ssh/:/var/lib/postgresql/.ssh/keys
+    networks:
+      cluster:
+        aliases:
+          - node2
+  #>>> Branch 1
+  #<<< Branch 2
   node3:
     image: kb/postgis
     environment:
@@ -85,30 +107,8 @@ services:
       NODE_NAME: node3
       CLUSTER_NODE_NETWORK_NAME: node3 # (default: hostname of the node)
 
-      REPLICATION_PRIMARY_HOST: node2 # I want to have cascade Streaming replication
-      #USE_REPLICATION_SLOTS: 0
-      CONFIGS_DELIMITER_SYMBOL: ;
-      CONFIGS: "listen_addresses:'*'"
-    ports:
-      - 5442:5432
-    volumes:
-      - node3:/var/lib/postgresql/data
-      - ./ssh/:/var/lib/postgresql/.ssh/keys
-    networks:
-      cluster:
-        aliases:
-          - node3
-  #>>> Branch 1
-  #<<< Branch 2
-  node4:
-    image: kb/postgis
-    environment:
-      NODE_ID: 4
-      NODE_NAME: node4
-      CLUSTER_NODE_NETWORK_NAME: node4 # (default: hostname of the node)
-
-      PARTNER_NODES: "node1,node2,node4"
-      REPLICATION_PRIMARY_HOST: node1
+      PARTNER_NODES: "node0,node1,node3"
+      REPLICATION_PRIMARY_HOST: node0
       NODE_PRIORITY: 200  # (default: 100)
       CLEAN_OVER_REWIND: 1
       CONFIGS_DELIMITER_SYMBOL: ;
@@ -116,40 +116,40 @@ services:
     ports:
       - 5443:5432
     volumes:
-      - node4:/var/lib/postgresql/data
+      - node3:/var/lib/postgresql/data
       - ./ssh/:/var/lib/postgresql/.ssh/keys
     networks:
       cluster:
         aliases:
-          - node4
+          - node3
 
-  node5:
+  node4:
     image: kb/postgis
     environment:
-      NODE_ID: 5
-      NODE_NAME: node5
-      CLUSTER_NODE_NETWORK_NAME: node5 # (default: hostname of the node)
+      NODE_ID: 4
+      NODE_NAME: node4
+      CLUSTER_NODE_NETWORK_NAME: node4 # (default: hostname of the node)
 
-      REPLICATION_PRIMARY_HOST: node4
+      REPLICATION_PRIMARY_HOST: node3
       #USE_REPLICATION_SLOTS: 0
       CONFIGS_DELIMITER_SYMBOL: ;
       CONFIGS: "listen_addresses:'*'"
     ports:
       - 5444:5432
     volumes:
-      - node5:/var/lib/postgresql/data
+      - node4:/var/lib/postgresql/data
       - ./ssh/:/var/lib/postgresql/.ssh/keys
     networks:
       cluster:
         aliases:
-          - node5
+          - node4
   #>>> Branch 2
   backup:
     image: kb/barman
     environment:
       REPLICATION_USER: replication_user # default is replication_user
       REPLICATION_PASSWORD: replication_pass # default is replication_pass
-      REPLICATION_HOST: node1
+      REPLICATION_HOST: node0
       POSTGRES_PASSWORD: monkey_pass
       POSTGRES_USER: monkey_user
       POSTGRES_DB: monkey_db
@@ -174,7 +174,7 @@ services:
       CHECK_PGCONNECT_TIMEOUT: 3 #timout for checking if primary node is healthy
       SSH_ENABLE: 1
       DB_USERS: monkey_user:monkey_pass # in format user:password[,user:password[...]]
-      BACKENDS: "0:node1:5432:1:/var/lib/postgresql/data:ALLOW_TO_FAILOVER,1:node2::::,3:node4::::,2:node3::::" #,4:pgslaveDOES_NOT_EXIST::::
+      BACKENDS: "0:node0:5432:1:/var/lib/postgresql/data:ALLOW_TO_FAILOVER,1:node1::::,3:node3::::,2:node2::::" #,4:pgslaveDOES_NOT_EXIST::::
         # in format num:host:port:weight:data_directory:flag[,...]
       # defaults:
       #   port: 5432
@@ -229,7 +229,7 @@ services:
     environment:
 
       NODE_ID: 1
-      NODE_NAME: node1
+      NODE_NAME: node0
       CLUSTER_NODE_NETWORK_NAME: pgmaster2
 
       POSTGRES_PASSWORD: monkey_pass
@@ -246,7 +246,7 @@ services:
   pgpool2:
     image: kb/pgpool
     depends_on:
-      - node1
+      - node0
       - pgmaster2
     environment:
       PCP_USER: pcp_user
@@ -257,7 +257,7 @@ services:
       CHECK_PGCONNECT_TIMEOUT: 3 #timout for checking if primary node is healthy
 
       DB_USERS: monkey_user:monkey_pass # in format user:password[,user:password[...]]
-      BACKENDS: "0:node1::::,1:pgmaster2::::"
+      BACKENDS: "0:node0::::,1:pgmaster2::::"
     ports:
       - 5431:5432
       - 9899:9898 # PCP

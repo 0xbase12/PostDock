@@ -1,7 +1,7 @@
 
 ##########################################################################
 ##                         AUTO-GENERATED FILE                          ##
-##               BUILD_NUMBER=Thu Feb 14 08:03:38 CET 2019              ##
+##               BUILD_NUMBER=Thu Feb 14 08:19:09 CET 2019              ##
 ##########################################################################
 
 version: '2'
@@ -19,7 +19,7 @@ volumes:
 
 services:
   pgmaster:
-    image: kb/postgres-10-repmgr-4.2.dockerfile
+    image: kb/postgis
     environment:
       NODE_ID: 1 # Integer number of node (not required if can be extracted from NODE_NAME var, e.g. node-45 => 1045)
       NODE_NAME: node1 # Node name
@@ -56,7 +56,7 @@ services:
           - pgmaster
   #<<< Branch 1
   pgslave1:
-    image: kb/postgres-10-repmgr-4.2.dockerfile
+    image: kb/postgis
     environment:
       NODE_ID: 2
       NODE_NAME: node2
@@ -79,7 +79,7 @@ services:
 
   # Add more slaves if required
   pgslave2:
-    image: kb/postgres-10-repmgr-4.2.dockerfile
+    image: kb/postgis
     environment:
       NODE_ID: 3
       NODE_NAME: node3
@@ -100,7 +100,7 @@ services:
   #>>> Branch 1
   #<<< Branch 2
   pgslave3:
-    image: kb/postgres-10-repmgr-4.2.dockerfile
+    image: kb/postgis
     environment:
       NODE_ID: 4
       NODE_NAME: node4
@@ -122,7 +122,7 @@ services:
           - pgslave3
 
   pgslave4:
-    image: kb/postgres-10-repmgr-4.2.dockerfile
+    image: kb/postgis
     environment:
       NODE_ID: 5
       NODE_NAME: node5
@@ -160,7 +160,7 @@ services:
         aliases:
           - backup
   pgpool:
-    image: kb/pgpool-4.2-postgres-10.dockerfile
+    image: kb/pgpool
     environment:
       PCP_USER: pcp_user
       PCP_PASSWORD: pcp_pass
@@ -174,7 +174,7 @@ services:
       BACKENDS: "0:pgmaster:5432:1:/var/lib/postgresql/data:ALLOW_TO_FAILOVER,1:pgslave1::::,3:pgslave3::::,2:pgslave2::::" #,4:pgslaveDOES_NOT_EXIST::::
         # in format num:host:port:weight:data_directory:flag[,...]
         # defaults:
-        #   port: 5432
+      #   port: 5432
       #   weight: 1
       #   data_directory: /var/lib/postgresql/data
       #   flag: ALLOW_TO_FAILOVER
@@ -193,7 +193,7 @@ services:
           - pgpool
   # the rest is for tests
   postgres_conf:
-    image: kb/postgres-10-repmgr-4.2.dockerfile
+    image: kb/postgis
     environment:
       NODE_NAME: node-102 # Node name
       CLUSTER_NODE_NETWORK_NAME: postgres_conf # (default: hostname of the node)
@@ -205,7 +205,7 @@ services:
       CONFIGS_DELIMITER_SYMBOL: "|"
       CONFIGS_ASSIGNMENT_SYMBOL: ")"
   pgpool_conf:
-    image: kb/pgpool-4.2-postgres-10.dockerfile
+    image: kb/pgpool
     environment:
       PCP_USER: pcp_user
       PCP_PASSWORD: pcp_pass
@@ -222,7 +222,7 @@ services:
       - 5440:5432
       - 9897:9898 # PCP
   pgmaster2:
-    image: kb/postgres-10-repmgr-4.2.dockerfile
+    image: kb/postgis
     environment:
 
       NODE_ID: 1
@@ -241,7 +241,7 @@ services:
         aliases:
           - pgmaster2
   pgpool2:
-    image: kb/pgpool-4.2-postgres-10.dockerfile
+    image: kb/pgpool
     depends_on:
       - pgmaster
       - pgmaster2

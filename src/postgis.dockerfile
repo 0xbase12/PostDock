@@ -1,7 +1,7 @@
 
 ##########################################################################
 ##                         AUTO-GENERATED FILE                          ##
-##               BUILD_NUMBER=Thu Feb 14 08:59:58 CET 2019              ##
+##               BUILD_NUMBER=Thu Feb 14 13:40:36 CET 2019              ##
 ##########################################################################
 
 FROM postgres:10
@@ -116,8 +116,8 @@ COPY ./pgsql/configs /var/cluster_configs
 
 ENV NOTVISIBLE "in users profile"
 
-COPY ./ssh /home/postgres/.ssh
-RUN chown -R postgres:postgres /home/postgres
+COPY ./ssh /var/lib/postgresql/.ssh
+RUN chown -R postgres:postgres /var/lib/postgresql
 
 EXPOSE 22
 EXPOSE 5432

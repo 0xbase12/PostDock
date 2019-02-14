@@ -41,7 +41,7 @@ RUN TEMP_DEB="$(mktemp)" && \
 RUN  wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && \
      tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
-COPY ./ssh /home/postgres/.ssh
+COPY ./ssh /var/lib/postgresql/.ssh
 COPY ./pgpool/bin /usr/local/bin/pgpool
 COPY ./pgpool/configs /var/pgpool_configs
 

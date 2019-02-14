@@ -1,7 +1,7 @@
 
 ##########################################################################
 ##                         AUTO-GENERATED FILE                          ##
-##               BUILD_NUMBER=Thu Feb 14 08:59:58 CET 2019              ##
+##               BUILD_NUMBER=Thu Feb 14 13:40:36 CET 2019              ##
 ##########################################################################
 
 FROM golang:1.8-jessie
@@ -59,8 +59,8 @@ ENV BACKUP_DIR /var/backups
 
 EXPOSE 22
 
-COPY ./ssh /home/postgres/.ssh
-RUN chown -R postgres:postgres /home/postgres
+COPY ./ssh /var/lib/postgresql/.ssh
+RUN chown -R postgres:postgres /var/lib/postgresql
 COPY ./barman/configs/barman.conf /etc/barman.conf
 COPY ./barman/configs/upstream.conf $UPSTREAM_CONFIG_FILE
 COPY ./barman/bin /usr/local/bin/barman_docker

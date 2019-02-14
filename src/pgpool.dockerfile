@@ -1,7 +1,7 @@
 
 ##########################################################################
 ##                         AUTO-GENERATED FILE                          ##
-##               BUILD_NUMBER=Thu Feb 14 08:59:58 CET 2019              ##
+##               BUILD_NUMBER=Thu Feb 14 13:40:36 CET 2019              ##
 ##########################################################################
 
 FROM debian:jessie
@@ -38,7 +38,7 @@ RUN TEMP_DEB="$(mktemp)" && \
 RUN  wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && \
      tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
-COPY ./ssh /home/postgres/.ssh
+COPY ./ssh /var/lib/postgresql/.ssh
 COPY ./pgpool/bin /usr/local/bin/pgpool
 COPY ./pgpool/configs /var/pgpool_configs
 

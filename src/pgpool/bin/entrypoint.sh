@@ -8,7 +8,7 @@ export POOL_PASSWD_FILE='/usr/local/etc/pool_passwd'
 
 
 echo '>>> STARTING SSH (if required)...'
-source /home/postgres/.ssh/entrypoint.sh
+source /var/lib/postgresql/.ssh/entrypoint.sh
 
 echo '>>> TURNING PGPOOL...'
 /usr/local/bin/pgpool/pgpool_setup.sh

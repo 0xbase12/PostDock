@@ -1,7 +1,7 @@
 
 ##########################################################################
 ##                         AUTO-GENERATED FILE                          ##
-##               BUILD_NUMBER=Thu Feb 14 08:48:21 CET 2019              ##
+##               BUILD_NUMBER=Thu Feb 14 08:59:58 CET 2019              ##
 ##########################################################################
 
 FROM postgres:10
@@ -53,15 +53,16 @@ ENV CONFIGS_ASSIGNMENT_SYMBOL :
                                 #CONFIGS_DELIMITER_SYMBOL and CONFIGS_ASSIGNMENT_SYMBOL are used to parse CONFIGS variable
                                 # if CONFIGS_DELIMITER_SYMBOL=| and CONFIGS_ASSIGNMENT_SYMBOL=>, valid configuration string is var1>val1|var2>val2
 
-ENV REPMGR_MAJOR 4
-ENV REPMGR_NODES_TABLE nodes
-ENV REPMGR_NODE_ID_COLUMN node_id
-ENV REPMGR_NODE_NAME_COLUMN node_name
-ENV REPMGR_CLUSTER_SHOW_MASTER_PATTERN primary
-ENV REPMGR_SHOW_NODES_TABLE show_nodes
-ENV REPMGR_NODE_ID_PARAM_NAME node_id
-ENV REPMGR_LOG_LEVEL_PARAM_NAME log_level
-ENV REPMGR_MASTER_RESPONSE_TIMEOUT_PARAM_NAME async_query_timeout
+
+ENV REPMGR_MAJOR 3
+ENV REPMGR_NODES_TABLE repl_nodes
+ENV REPMGR_NODE_ID_COLUMN id
+ENV REPMGR_NODE_NAME_COLUMN name
+ENV REPMGR_CLUSTER_SHOW_MASTER_PATTERN * master
+ENV REPMGR_SHOW_NODES_TABLE repl_show_nodes
+ENV REPMGR_NODE_ID_PARAM_NAME node
+ENV REPMGR_LOG_LEVEL_PARAM_NAME loglevel
+ENV REPMGR_MASTER_RESPONSE_TIMEOUT_PARAM_NAME master_reponse_timeout
 
 # ENV CONFIGS "listen_addresses:'*'"
                                     # in format variable1:value1[,variable2:value2[,...]] if CONFIGS_DELIMITER_SYMBOL=, and CONFIGS_ASSIGNMENT_SYMBOL=:

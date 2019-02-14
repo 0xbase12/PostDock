@@ -142,7 +142,7 @@ services:
           - pgslave4
   #>>> Branch 2
   backup:
-    image: kb/barman-2.5-postgres-10.dockerfile
+    image: kb/barman
     environment:
       REPLICATION_USER: replication_user # default is replication_user
       REPLICATION_PASSWORD: replication_pass # default is replication_pass

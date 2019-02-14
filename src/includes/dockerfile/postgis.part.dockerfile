@@ -1,7 +1,17 @@
 FROM postgres:{{ POSTGRES_VERSION }}
 
 RUN apt-get update --fix-missing && \
-    apt-get install -y postgresql-server-dev-$PG_MAJOR wget openssh-server barman-cli postgresql-$PG_MAJOR-postgis-{{ POSTGIS_VERSION }} postgresql-$PG_MAJOR-repmgr={{ REPMGR_PACKAGE_VERSION }}
+    apt-get install -y postgresql-server-dev-$PG_MAJOR wget openssh-server barman-cli postgresql-$PG_MAJOR-postgis-{{ POSTGIS_VERSION }}
+
+{{ #REPMGR_LATEST }}
+RUN apt-get install -y postgresql-$PG_MAJOR-repmgr={{ REPMGR_PACKAGE_VERSION }}\*
+{{ /REPMGR_LATEST }}{{ ^REPMGR_LATEST }}
+RUN TEMP_DEB="$(mktemp)" && \
+    wget -O "$TEMP_DEB" "http://atalia.postgresql.org/morgue/r/repmgr/repmgr-common_{{ REPMGR_PACKAGE_VERSION }}_all.deb" && \
+    dpkg -i "$TEMP_DEB" && rm -f "$TEMP_DEB" && \
+    wget -O "$TEMP_DEB" "http://atalia.postgresql.org/morgue/r/repmgr/postgresql-$PG_MAJOR-repmgr_{{ REPMGR_PACKAGE_VERSION }}_amd64.deb" && \
+    (dpkg -i "$TEMP_DEB" || apt-get install -y -f) && rm -f "$TEMP_DEB"
+{{ /REPMGR_LATEST }}
 
 # Inherited variables
 # ENV POSTGRES_PASSWORD monkey_pass

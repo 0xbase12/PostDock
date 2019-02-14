@@ -1,6 +1,6 @@
 echo ">>> Making pgpool"
 
-for VALS in "PGPOOL_VERSION=4.2 PGPOOL_PACKAGE_VERSION=4.0.2-1.pgdg100+1";  do
+for VALS in "PGPOOL_VERSION=3.7 PGPOOL_PACKAGE_VERSION=3.7.5-2.pgdg90+1";  do
     eval $VALS
     
     for PG_CLIENT_VERSION in 10; do

@@ -1,13 +1,20 @@
 
 ##########################################################################
 ##                         AUTO-GENERATED FILE                          ##
-##               BUILD_NUMBER=Thu Feb 14 08:22:17 CET 2019              ##
+##               BUILD_NUMBER=Thu Feb 14 08:46:18 CET 2019              ##
 ##########################################################################
 
 FROM postgres:10
 
 RUN apt-get update --fix-missing && \
-    apt-get install -y postgresql-server-dev-$PG_MAJOR wget openssh-server barman-cli postgresql-$PG_MAJOR-postgis-2.5 postgresql-$PG_MAJOR-repmgr=4.2.0-1.pgdg+1
+    apt-get install -y postgresql-server-dev-$PG_MAJOR wget openssh-server barman-cli postgresql-$PG_MAJOR-postgis-2.5
+
+
+RUN TEMP_DEB="$(mktemp)" && \
+    wget -O "$TEMP_DEB" "http://atalia.postgresql.org/morgue/r/repmgr/repmgr-common_3.3.2-1.pgdg90+1_all.deb" && \
+    dpkg -i "$TEMP_DEB" && rm -f "$TEMP_DEB" && \
+    wget -O "$TEMP_DEB" "http://atalia.postgresql.org/morgue/r/repmgr/postgresql-$PG_MAJOR-repmgr_3.3.2-1.pgdg90+1_amd64.deb" && \
+    (dpkg -i "$TEMP_DEB" || apt-get install -y -f) && rm -f "$TEMP_DEB"
 
 # Inherited variables
 # ENV POSTGRES_PASSWORD monkey_pass

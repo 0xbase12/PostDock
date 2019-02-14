@@ -1,7 +1,7 @@
 
 ##########################################################################
 ##                         AUTO-GENERATED FILE                          ##
-##               BUILD_NUMBER=Thu Feb 14 14:04:22 CET 2019              ##
+##               BUILD_NUMBER=Thu Feb 14 16:02:51 CET 2019              ##
 ##########################################################################
 
 version: '2'
@@ -93,6 +93,7 @@ services:
       - 5442:5432
     volumes:
       - node3:/var/lib/postgresql/data
+      - ./ssh/:/var/lib/postgresql/.ssh/keys
     networks:
       cluster:
         aliases:
@@ -116,6 +117,7 @@ services:
       - 5443:5432
     volumes:
       - node4:/var/lib/postgresql/data
+      - ./ssh/:/var/lib/postgresql/.ssh/keys
     networks:
       cluster:
         aliases:
@@ -136,6 +138,7 @@ services:
       - 5444:5432
     volumes:
       - node5:/var/lib/postgresql/data
+      - ./ssh/:/var/lib/postgresql/.ssh/keys
     networks:
       cluster:
         aliases:

@@ -87,6 +87,7 @@ services:
       - 5442:5432
     volumes:
       - node3:/var/lib/postgresql/data
+      - ./ssh/:/var/lib/postgresql/.ssh/keys
     networks:
       cluster:
         aliases:
@@ -110,6 +111,7 @@ services:
       - 5443:5432
     volumes:
       - node4:/var/lib/postgresql/data
+      - ./ssh/:/var/lib/postgresql/.ssh/keys
     networks:
       cluster:
         aliases:
@@ -130,6 +132,7 @@ services:
       - 5444:5432
     volumes:
       - node5:/var/lib/postgresql/data
+      - ./ssh/:/var/lib/postgresql/.ssh/keys
     networks:
       cluster:
         aliases:

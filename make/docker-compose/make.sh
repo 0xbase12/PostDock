@@ -2,7 +2,7 @@ echo ">>> Making docker-compose"
 
 FILE_FROM='./src/includes/docker-compose/docker-compose.yml'
 for POSTGRES_VERSION in 10; do
-    for REPMGR_VERSION in 3.3; do
+    for REPMGR_VERSION in 4.0; do
         for PGPOOL_VERSION in 3.7; do
             for BARMAN_VERSION in 2.5; do
                 PGPOOL_POSTGRES_CLIENT_VERSION="$POSTGRES_VERSION"

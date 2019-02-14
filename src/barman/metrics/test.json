@@ -1,7 +1,7 @@
 {
     "global": {
         "config": {
-            "barman_home": "/home/postgres/",
+            "barman_home": "/var/lib/postgresql/",
             "barman_user": "postgres",
             "basebackup_retry_times": "10",
             "compression": "gzip",
@@ -122,8 +122,8 @@
                 "backup_method": "postgres",
                 "backup_options": "concurrent_backup",
                 "bandwidth_limit": null,
-                "barman_home": "/home/postgres/",
-                "barman_lock_directory": "/home/postgres/",
+                "barman_home": "/var/lib/postgresql/",
+                "barman_lock_directory": "/var/lib/postgresql/",
                 "basebackup_retry_sleep": 30,
                 "basebackup_retry_times": 10,
                 "basebackups_directory": "/var/backups/base",

@@ -1,7 +1,7 @@
 FROM debian:jessie
 ARG DOCKERIZE_VERSION=v0.2.0
 
-RUN groupadd -r postgres --gid=999 && useradd -r -g postgres -d /home/postgres  --uid=999 postgres
+RUN groupadd -r postgres --gid=999 && useradd -r -g postgres -d /var/lib/postgresql  --uid=999 postgres
 
 # grab gosu for easy step-down from root
 ARG GOSU_VERSION=1.7

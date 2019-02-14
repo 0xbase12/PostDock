@@ -1,7 +1,7 @@
 
 ##########################################################################
 ##                         AUTO-GENERATED FILE                          ##
-##               BUILD_NUMBER=Thu Feb 14 08:46:18 CET 2019              ##
+##               BUILD_NUMBER=Thu Feb 14 08:48:21 CET 2019              ##
 ##########################################################################
 
 FROM golang:1.8-jessie
@@ -28,7 +28,7 @@ RUN  apt-get install -y postgresql-client-10
 
 
 RUN TEMP_DEB="$(mktemp)" && \
-    wget -O "$TEMP_DEB"  "http://atalia.postgresql.org/morgue/b/barman/barman_2.5-1.pgdg90+1_all.deb" && \
+    wget -O "$TEMP_DEB"  "http://atalia.postgresql.org/morgue/b/barman/barman_2.5-1.pgdg80+1_all.deb" && \
     (dpkg -i "$TEMP_DEB" || apt-get install -y -f) && rm -f "$TEMP_DEB"
 
 RUN apt-get -y install cron

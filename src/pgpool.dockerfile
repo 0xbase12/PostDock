@@ -1,7 +1,7 @@
 
 ##########################################################################
 ##                         AUTO-GENERATED FILE                          ##
-##               BUILD_NUMBER=Thu Feb 14 08:46:18 CET 2019              ##
+##               BUILD_NUMBER=Thu Feb 14 08:48:21 CET 2019              ##
 ##########################################################################
 
 FROM debian:jessie
@@ -32,7 +32,7 @@ RUN  apt-get install -y postgresql-client-10
 
 
 RUN TEMP_DEB="$(mktemp)" && \
-    wget -O "$TEMP_DEB" "http://atalia.postgresql.org/morgue/p/pgpool2/pgpool2_3.7.5-2.pgdg90+1_amd64.deb" && \
+    wget -O "$TEMP_DEB" "http://atalia.postgresql.org/morgue/p/pgpool2/pgpool2_3.7.5-2.pgdg80+1_amd64.deb" && \
     (dpkg -i "$TEMP_DEB" || apt-get install -y -f) && rm -f "$TEMP_DEB"
 
 RUN  wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && \

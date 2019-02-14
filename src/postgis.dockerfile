@@ -1,7 +1,7 @@
 
 ##########################################################################
 ##                         AUTO-GENERATED FILE                          ##
-##               BUILD_NUMBER=Thu Feb 14 08:46:18 CET 2019              ##
+##               BUILD_NUMBER=Thu Feb 14 08:48:21 CET 2019              ##
 ##########################################################################
 
 FROM postgres:10
@@ -11,9 +11,9 @@ RUN apt-get update --fix-missing && \
 
 
 RUN TEMP_DEB="$(mktemp)" && \
-    wget -O "$TEMP_DEB" "http://atalia.postgresql.org/morgue/r/repmgr/repmgr-common_3.3.2-1.pgdg90+1_all.deb" && \
+    wget -O "$TEMP_DEB" "http://atalia.postgresql.org/morgue/r/repmgr/repmgr-common_3.3.2-1.pgdg80+1_all.deb" && \
     dpkg -i "$TEMP_DEB" && rm -f "$TEMP_DEB" && \
-    wget -O "$TEMP_DEB" "http://atalia.postgresql.org/morgue/r/repmgr/postgresql-$PG_MAJOR-repmgr_3.3.2-1.pgdg90+1_amd64.deb" && \
+    wget -O "$TEMP_DEB" "http://atalia.postgresql.org/morgue/r/repmgr/postgresql-$PG_MAJOR-repmgr_3.3.2-1.pgdg80+1_amd64.deb" && \
     (dpkg -i "$TEMP_DEB" || apt-get install -y -f) && rm -f "$TEMP_DEB"
 
 # Inherited variables

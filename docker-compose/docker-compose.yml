@@ -1,7 +1,7 @@
 
 ##########################################################################
 ##                         AUTO-GENERATED FILE                          ##
-##               BUILD_NUMBER=Thu Feb 14 16:07:22 CET 2019              ##
+##               BUILD_NUMBER=Thu Feb 14 16:14:10 CET 2019              ##
 ##########################################################################
 
 version: '2'
@@ -21,7 +21,7 @@ services:
   node0:
     image: kb/postgis
     environment:
-      NODE_ID: 0 # Integer number of node (not required if can be extracted from NODE_NAME var, e.g. node-45 => 1045)
+      NODE_ID: 1 # Integer number of node (not required if can be extracted from NODE_NAME var, e.g. node-45 => 1045)
       NODE_NAME: node0 # Node name
       CLUSTER_NODE_NETWORK_NAME: node0 # (default: hostname of the node)
 
@@ -58,7 +58,7 @@ services:
   node1:
     image: kb/postgis
     environment:
-      NODE_ID: 1
+      NODE_ID: 2
       NODE_NAME: node1
       CLUSTER_NODE_NETWORK_NAME: node1 # (default: hostname of the node)
       SSH_ENABLE: 1
@@ -81,7 +81,7 @@ services:
   node2:
     image: kb/postgis
     environment:
-      NODE_ID: 2
+      NODE_ID: 3
       NODE_NAME: node2
       CLUSTER_NODE_NETWORK_NAME: node2 # (default: hostname of the node)
 
@@ -103,7 +103,7 @@ services:
   node3:
     image: kb/postgis
     environment:
-      NODE_ID: 3
+      NODE_ID: 4
       NODE_NAME: node3
       CLUSTER_NODE_NETWORK_NAME: node3 # (default: hostname of the node)
 
@@ -126,7 +126,7 @@ services:
   node4:
     image: kb/postgis
     environment:
-      NODE_ID: 4
+      NODE_ID: 5
       NODE_NAME: node4
       CLUSTER_NODE_NETWORK_NAME: node4 # (default: hostname of the node)
 

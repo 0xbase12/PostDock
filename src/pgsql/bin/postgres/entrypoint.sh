@@ -5,9 +5,9 @@ echo '>>> SETTING UP POLYMORPHIC VARIABLES (repmgr=3+postgres=9 | repmgr=4, post
 source postdock_polymorphic
 
 echo '>>> TUNING UP POSTGRES...'
-echo "*:$REPLICATION_PRIMARY_PORT:*:$REPLICATION_USER:$REPLICATION_PASSWORD" >> /home/postgres/.pgpass
-chmod 0600 /home/postgres/.pgpass
-chown postgres:postgres /home/postgres/.pgpass
+echo "*:$REPLICATION_PRIMARY_PORT:*:$REPLICATION_USER:$REPLICATION_PASSWORD" >> /var/lib/postgresql/.pgpass
+chmod 0600 /var/lib/postgresql/.pgpass
+chown postgres:postgres /var/lib/postgresql/.pgpass
 
 if ! has_pg_cluster; then
     echo ">>> Cleaning data folder which might have some garbage..."

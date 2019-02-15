@@ -1,1 +1,0 @@
-Barman-2.4-Postgres-10.Dockerfile

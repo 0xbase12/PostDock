@@ -1,3 +1,9 @@
+
+##########################################################################
+##                         AUTO-GENERATED FILE                          ##
+##               BUILD_NUMBER=Fri Feb 15 10:48:48 CET 2019              ##
+##########################################################################
+
 version: '2'
 networks:
   cluster:
@@ -30,7 +36,7 @@ services:
       POSTGRES_DB: monkey_db
       CLEAN_OVER_REWIND: 0
       CONFIGS_DELIMITER_SYMBOL: ;
-      CONFIGS: "listen_addresses:'*';max_replication_slots:5{{#POSTGRES_EXTENDED}};shared_preload_libraries:'pglogical'{{/POSTGRES_EXTENDED}}"
+      CONFIGS: "listen_addresses:'*';max_replication_slots:5"
       # in format variable1:value1[,variable2:value2[,...]] if CONFIGS_DELIMITER_SYMBOL=, and CONFIGS_ASSIGNMENT_SYMBOL=:
       # used for pgpool.conf file
       #defaults:
@@ -60,7 +66,7 @@ services:
       REPLICATION_PRIMARY_HOST: pgmaster
       CLEAN_OVER_REWIND: 1
       CONFIGS_DELIMITER_SYMBOL: ;
-      CONFIGS: "max_replication_slots:10{{#POSTGRES_EXTENDED}};shared_preload_libraries:'pglogical'{{/POSTGRES_EXTENDED}}" #some overrides
+      CONFIGS: "max_replication_slots:10" #some overrides
     ports:
       - 5441:5432
     volumes:
@@ -82,7 +88,7 @@ services:
       REPLICATION_PRIMARY_HOST: pgslave1 # I want to have cascade Streaming replication
       #USE_REPLICATION_SLOTS: 0
       CONFIGS_DELIMITER_SYMBOL: ;
-      CONFIGS: "listen_addresses:'*'{{#POSTGRES_EXTENDED}};shared_preload_libraries:'pglogical'{{/POSTGRES_EXTENDED}}"
+      CONFIGS: "listen_addresses:'*'"
     ports:
       - 5442:5432
     volumes:
@@ -106,7 +112,7 @@ services:
       NODE_PRIORITY: 200  # (default: 100)
       CLEAN_OVER_REWIND: 1
       CONFIGS_DELIMITER_SYMBOL: ;
-      CONFIGS: "listen_addresses:'*'{{#POSTGRES_EXTENDED}};shared_preload_libraries:'pglogical'{{/POSTGRES_EXTENDED}}"
+      CONFIGS: "listen_addresses:'*'"
     ports:
       - 5443:5432
     volumes:
@@ -127,7 +133,7 @@ services:
       REPLICATION_PRIMARY_HOST: pgslave3
       #USE_REPLICATION_SLOTS: 0
       CONFIGS_DELIMITER_SYMBOL: ;
-      CONFIGS: "listen_addresses:'*'{{#POSTGRES_EXTENDED}};shared_preload_libraries:'pglogical'{{/POSTGRES_EXTENDED}}"
+      CONFIGS: "listen_addresses:'*'"
     ports:
       - 5444:5432
     volumes:
@@ -230,7 +236,7 @@ services:
       POSTGRES_USER: monkey_user
       POSTGRES_DB: monkey_db
       CONFIGS_DELIMITER_SYMBOL: ;
-      CONFIGS: "listen_addresses:'*'{{#POSTGRES_EXTENDED}};shared_preload_libraries:'pglogical'{{/POSTGRES_EXTENDED}}"
+      CONFIGS: "listen_addresses:'*'"
     ports:
       - 5439:5432
     networks:

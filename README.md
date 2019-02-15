@@ -52,9 +52,9 @@
 | Software      | Version | Docker Image       | Role                                                       |
 | ------------- |:-------:|:------------------:|:----------------------------------------------------------:|
 | Postgres      | v10     | postgis.dockerfile | Object-relational database                                 |
-| Reprmgr       | v4.0    | postgis.dockerfile | Replication and failover in a cluster of PostgreSQL servers|
-| Pgpool-II     | v3.7    | pgpool.dockerfile  | Load balancer - Connection pooling                         |
-| Barman        | v2.5    | barman.dockerfile  | Backup and Recovery Manager)                               |
+| Reprmgr       | v4.0    | postgis.dockerfile | Replication in a cluster of PostgreSQL servers             |
+| Pgpool-II     | v3.7    | pgpool.dockerfile  | Load balancer - Failover - Connection pooling              |
+| Barman        | v2.5    | barman.dockerfile  | Backup and Recovery Manager                                |
 
 
 ## Features

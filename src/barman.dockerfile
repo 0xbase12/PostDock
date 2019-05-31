@@ -4,7 +4,7 @@
 ##               BUILD_NUMBER=Fri Feb 15 10:48:48 CET 2019              ##
 ##########################################################################
 
-FROM golang:1.8-jessie
+FROM golang:stretch
 
 # grab gosu for easy step-down from root
 ARG GOSU_VERSION=1.7
@@ -20,7 +20,7 @@ RUN set -x \
 	&& gosu nobody true 
 
 RUN  wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | apt-key add - && \
-     sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main" >> /etc/apt/sources.list.d/pgdg.list' && \
+     sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main" >> /etc/apt/sources.list.d/pgdg.list' && \
      apt-get update && \
      apt-get install -y libffi-dev libssl-dev openssh-server
 

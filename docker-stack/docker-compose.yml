@@ -12,7 +12,7 @@ volumes:
 
 services:
   pg1:
-    image: kb/postgis
+    image: 0xbase12/postgis
     environment:
       NODE_ID: 1 # Integer number of node (not required if can be extracted from NODE_NAME var, e.g. node-45 => 1045)
       NODE_NAME: pg1 # Node name
@@ -39,10 +39,10 @@ services:
       REPLICATION_PASSWORD: replication_pass # default is replication_pass
     volumes:
       - pg1:/var/lib/postgresql/data
-      - ./ssh/:/var/lib/postgresql/.ssh/keys
+      - ./ssh/:/ssh/keys
   
   pg2:
-    image: kb/postgis
+    image: 0xbase12/postgis
     environment:
       NODE_ID: 2
       NODE_NAME: pg2
@@ -55,10 +55,10 @@ services:
       CONFIGS: "max_replication_slots:10" #some overrides
     volumes:
       - pg2:/var/lib/postgresql/data
-      - ./ssh:/var/lib/postgresql/.ssh/keys
+      - ./ssh:/ssh/keys
 
   pg3:
-    image: kb/postgis
+    image: 0xbase12/postgis
     environment:
       NODE_ID: 3
       NODE_NAME: pg3
@@ -71,10 +71,10 @@ services:
       CONFIGS: "max_replication_slots:10" #some overrides
     volumes:
       - pg3:/var/lib/postgresql/data
-      - ./ssh:/var/lib/postgresql/.ssh/keys
+      - ./ssh:/ssh/keys
 
   backup:
-    image: kb/barman
+    image: 0xbase12/barman
     environment:
       REPLICATION_USER: replication_user # default is replication_user
       REPLICATION_PASSWORD: replication_pass # default is replication_pass
@@ -86,10 +86,10 @@ services:
       BACKUP_SCHEDULE: "*/30 */5 * * *"
     volumes:
       - backup:/var/backups
-      - ./ssh:/var/lib/postgresql/.ssh/keys
+      - ./ssh:/ssh/keys
   
   pgpool:
-    image: kb/pgpool
+    image: 0xbase12/pgpool
     environment:
       PCP_USER: pcp_user
       PCP_PASSWORD: pcp_pass
@@ -115,4 +115,4 @@ services:
       - "5432:5432"
       - "9898:9898" # PCP
     volumes:
-      - ./ssh:/var/lib/postgresql/.ssh/keys
+      - ./ssh:/ssh/keys

@@ -2,7 +2,7 @@
 
 set -e
 
-cp -f /var/lib/postgresql/.ssh/keys/* /var/lib/postgresql/.ssh/ || echo 'No pre-populated ssh keys!'
+cp -f /ssh/keys/* /var/lib/postgresql/.ssh/ || echo 'No pre-populated ssh keys!'
 chown -R postgres:postgres /var/lib/postgresql/
 
 if [[ "$SSH_ENABLE" == "1" ]]; then

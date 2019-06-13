@@ -22,6 +22,10 @@ conninfo = host=$REPLICATION_HOST dbname=$POSTGRES_DB user=$POSTGRES_USER passwo
 slot_name = $REPLICATION_SLOT_NAME
 backup_directory = $BACKUP_DIR
 retention_policy = RECOVERY WINDOW OF $BACKUP_RETENTION_DAYS DAYS
+backup_method = rsync
+reuse_backup = link
+backup_options = 'exclusive_backup'
+ssh_command = 'ssh $REPLICATION_HOST'
 " >> $UPSTREAM_CONFIG_FILE
 
 echo '>>> STARTING SSH (if required)...'

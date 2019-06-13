@@ -33,7 +33,7 @@ source /var/lib/postgresql/.ssh/entrypoint.sh
 
 echo '>>> SETUP BARMAN CRON'
 echo ">>>>>> Backup schedule is $BACKUP_SCHEDULE"
-echo "$BACKUP_SCHEDULE root barman backup all > /proc/1/fd/1 2> /proc/1/fd/2" >> /etc/cron.d/barman
+echo "$BACKUP_SCHEDULE root /usr/bin/barman backup all > /proc/1/fd/1 2> /proc/1/fd/2" >> /etc/cron.d/barman
 chmod 0644 /etc/cron.d/barman
 
 echo '>>> STARTING METRICS SERVER'

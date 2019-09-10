@@ -89,7 +89,7 @@ services:
       - ./ssh:/ssh/keys
   
   pgpool:
-    image: 0xbase12/pgpool
+          image: 0xbase12/pgpool:4.0.6.0
     environment:
       PCP_USER: pcp_user
       PCP_PASSWORD: pcp_pass

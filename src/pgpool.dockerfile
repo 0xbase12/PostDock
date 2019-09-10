@@ -4,7 +4,7 @@
 ##               BUILD_NUMBER=Fri Feb 15 10:48:48 CET 2019              ##
 ##########################################################################
 
-FROM debian:jessie
+FROM debian:buster
 ARG DOCKERIZE_VERSION=v0.2.0
 
 RUN groupadd -r postgres --gid=999 && useradd -r -g postgres -d /var/lib/postgresql  --uid=999 postgres
@@ -12,7 +12,7 @@ RUN groupadd -r postgres --gid=999 && useradd -r -g postgres -d /var/lib/postgre
 # grab gosu for easy step-down from root
 ARG GOSU_VERSION=1.7
 RUN set -x \
-	&& apt-get update && apt-get install -y --no-install-recommends ca-certificates wget && rm -rf /var/lib/apt/lists/* \
+	&& apt-get update && apt-get install -y --no-install-recommends ca-certificates wget gpg dirmngr gpg-agent && rm -rf /var/lib/apt/lists/* \
 	&& wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" \
 	&& wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc" \
 	&& export GNUPGHOME="$(mktemp -d)" \
@@ -23,17 +23,12 @@ RUN set -x \
 	&& gosu nobody true 
 
 RUN  wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | apt-key add - && \
-     sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main" >> /etc/apt/sources.list.d/pgdg.list' && \
+     sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main" >> /etc/apt/sources.list.d/pgdg.list' && \
      apt-get update
 
 RUN  apt-get install -y libffi-dev libssl-dev openssh-server
 
-RUN  apt-get install -y postgresql-client-10
-
-
-RUN TEMP_DEB="$(mktemp)" && \
-    wget -O "$TEMP_DEB" "http://atalia.postgresql.org/morgue/p/pgpool2/pgpool2_3.7.5-2.pgdg80+1_amd64.deb" && \
-    (dpkg -i "$TEMP_DEB" || apt-get install -y -f) && rm -f "$TEMP_DEB"
+RUN  apt-get install -y postgresql-client-10 pgpool2
 
 RUN  wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && \
      tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz

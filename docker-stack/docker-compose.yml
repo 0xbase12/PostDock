@@ -12,7 +12,7 @@ volumes:
 
 services:
   pg1:
-    image: 0xbase12/postgis
+    image: 0xbase12/postgis:10.10.0
     environment:
       NODE_ID: 1 # Integer number of node (not required if can be extracted from NODE_NAME var, e.g. node-45 => 1045)
       NODE_NAME: pg1 # Node name
@@ -42,7 +42,7 @@ services:
       - ./ssh/:/ssh/keys
   
   pg2:
-    image: 0xbase12/postgis
+    image: 0xbase12/postgis:10.10.0
     environment:
       NODE_ID: 2
       NODE_NAME: pg2
@@ -58,7 +58,7 @@ services:
       - ./ssh:/ssh/keys
 
   pg3:
-    image: 0xbase12/postgis
+    image: 0xbase12/postgis:10.10.0
     environment:
       NODE_ID: 3
       NODE_NAME: pg3
@@ -89,7 +89,7 @@ services:
       - ./ssh:/ssh/keys
   
   pgpool:
-          image: 0xbase12/pgpool:4.0.6.0
+    image: 0xbase12/pgpool:4.0.6.1
     environment:
       PCP_USER: pcp_user
       PCP_PASSWORD: pcp_pass
